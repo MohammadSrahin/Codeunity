@@ -14,3 +14,4 @@
 | /exam/{examID}                  | POST/GET/PUT/DELETE | To update exam              |
 | /exam/{examID}/submit           | POST                | To submit exam              |
 | /user/{userID}/courses          | GET                 | N/A                         |
+
