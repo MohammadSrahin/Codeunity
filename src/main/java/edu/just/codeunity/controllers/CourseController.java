@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/course")
+@RestController
+@RequestMapping("/course")
 public class CourseController {
 
   private final ObjectMapper objectMapper;

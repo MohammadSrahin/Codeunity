@@ -21,6 +21,15 @@ public class AccountController {
     return node;
   }
 
+  @GetMapping("/user/{userID}/courses")
+  public ObjectNode getUserCourses(@PathVariable String userID) {
+    ObjectNode node = objectMapper.createObjectNode();
+
+    //TODO: Fetch user
+
+    return node;
+  }
+
   @PostMapping("/profile/{userID}")
   public ObjectNode updateProfile(@PathVariable String userID) {
     ObjectNode node = objectMapper.createObjectNode();
