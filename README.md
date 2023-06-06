@@ -3,7 +3,7 @@
 | /login                          | POST                | To login                    |
 | /logout                         | POST                | To logout                   |
 | /register                       | POST                | To register an account      |
-| /profile                        | POST/GET            | To update profile           |
+| /profile/{userID}               | POST/GET            | To update profile           |
 | /course                         | GET                 | N/A                         |
 | /course/{courseID}/{userID}     | POST/GET            | To update user's properties |
 | /course/{courseID}/participants | GET                 | N/A                         |

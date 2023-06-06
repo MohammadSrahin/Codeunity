@@ -2,7 +2,6 @@ package edu.just.codeunity.controllers;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController("/course")
@@ -31,7 +30,6 @@ public class CourseController {
 
     return node;
   }
-
 
   @GetMapping("/{courseID}/{userID}")
   public ObjectNode getUserInCourse(@PathVariable String courseID, @PathVariable String userID) {
@@ -77,12 +75,4 @@ public class CourseController {
 
     return node;
   }
-  /*
-  *
-  * | /course/{courseID}/{userID}     | POST/GET            | To update user's properties |
-    | /course/{courseID}/participants | GET                 | N/A                         |
-    | /course/{courseID}              | POST/GET/PUT/DELETE | To update course content    |
-  *
-  *
-  * */
 }
