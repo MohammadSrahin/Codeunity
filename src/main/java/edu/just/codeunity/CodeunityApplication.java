@@ -25,13 +25,14 @@ public class CodeunityApplication {
       User secondUser = new User();
       secondUser.setFirstName("Mohammad");
       secondUser.setLastName("Sreheen");
-      userService.createUser(firstUser);
-      userService.createUser(secondUser);
+      userService.saveUser(firstUser);
+      userService.saveUser(secondUser);
       secondUser.setFirstName("MOH");
-      userService.updateUser(secondUser);
+      userService.saveUser(secondUser);
       for(User user: userService.getAllUsers()){
         System.out.println(user + " " + user.getId());
       }
+      System.out.println(userService.getUserById(1L));
     };
   }
 

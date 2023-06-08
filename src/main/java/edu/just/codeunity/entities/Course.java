@@ -24,6 +24,9 @@ public class Course {
     @OneToMany
     private List<Lesson> Lessons = new ArrayList<>();
 
+    @OneToOne
+    private Exam exam;
+
     @Override
     public String toString(){
         return name;
