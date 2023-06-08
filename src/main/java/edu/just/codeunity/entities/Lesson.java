@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 public class Lesson {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
     private String title;
     private String body;
     private String foot;

@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 public class Progress {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
 
     @ManyToOne
     private User user;

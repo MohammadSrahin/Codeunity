@@ -18,8 +18,8 @@ public class Exam {
     * input and output aligned together by index, in other words, in i-th position, i-th output element is the expected from the i-th input
     * */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
     private String name;
     private String description;
     private String input;

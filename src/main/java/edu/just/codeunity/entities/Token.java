@@ -21,8 +21,8 @@ public class Token {
     * */
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
     @ManyToOne
     private User user;
 

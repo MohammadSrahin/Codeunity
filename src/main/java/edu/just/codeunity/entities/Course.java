@@ -13,8 +13,8 @@ import java.util.List;
 @Setter
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
 
     private String name;
     private String authorId;

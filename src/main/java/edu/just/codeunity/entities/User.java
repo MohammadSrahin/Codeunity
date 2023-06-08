@@ -7,16 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
-@Entity(name = "`user`")
+@Entity(name = "`users`")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
 
     private String firstName;
     private String lastName;
