@@ -2,13 +2,17 @@ package edu.just.codeunity.entities;
 
 import edu.just.codeunity.Types.AccountRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "`user`")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
