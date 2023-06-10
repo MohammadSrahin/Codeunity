@@ -30,8 +30,28 @@ public class User {
     private String profilePicture;
 //    private String activationCode;
 
+    public void updateUser(User user) {
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.username = user.username;
+        this.birthDate = user.birthDate;
+        this.role = user.role;
+    }
+
     @Override
-    public String toString(){
-        return firstName + " " + lastName;
+    public String toString() {
+        return "User{" +
+            "Id=" + Id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", role=" + role +
+            ", birthDate=" + birthDate +
+            ", joinDate=" + joinDate +
+            ", profilePicture='" + profilePicture + '\'' +
+            '}';
     }
 }

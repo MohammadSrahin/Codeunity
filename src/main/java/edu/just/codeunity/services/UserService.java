@@ -6,6 +6,7 @@ import edu.just.codeunity.entities.Token;
 import edu.just.codeunity.entities.User;
 import edu.just.codeunity.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    @Lazy
     private CourseService courseService;
     @Autowired
     private ProgressService progressService;
@@ -66,7 +68,6 @@ public class UserService {
 
         return users;
     }
-
     public void deleteUser(User user){
         userRepository.delete(user);
     }

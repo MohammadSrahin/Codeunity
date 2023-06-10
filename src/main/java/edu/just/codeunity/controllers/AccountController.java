@@ -2,68 +2,58 @@ package edu.just.codeunity.controllers;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
+import edu.just.codeunity.entities.*;
+import edu.just.codeunity.services.*;
+import java.util.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AccountController {
   private final ObjectMapper objectMapper;
 
-  public AccountController(ObjectMapper objectMapper) {
+  private final UserService userService;
+  private final CourseService courseService;
+
+  public AccountController(ObjectMapper objectMapper, UserService userService, CourseService courseService) {
     this.objectMapper = objectMapper;
+    this.userService = userService;
+    this.courseService = courseService;
   }
 
-  @GetMapping("/profile/{userID}")
-  public ObjectNode getProfile(@PathVariable String userID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch user
-
-    return node;
+  @GetMapping(value = "/profile/{userID}", consumes = "application/json")
+  public User getProfile(@PathVariable Long userID) {
+    return userService.getUserById(userID);
   }
 
-  @GetMapping("/user/{userID}/courses")
-  public ObjectNode getUserCourses(@PathVariable String userID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch user
-
-    return node;
+  @GetMapping(value = "/user/{userID}/courses", consumes = "application/json")
+  public List<Course> getUserCourses(@PathVariable Long userID) {
+    User user = userService.getUserById(userID);
+    return courseService.getAllCoursesUserEnrolledIn(user);
   }
 
-  @PostMapping("/profile/{userID}")
-  public ObjectNode updateProfile(@PathVariable String userID) {
-    ObjectNode node = objectMapper.createObjectNode();
+  @PostMapping( value = "/profile/{userID}", consumes = "application/json")
+  public User updateProfile(@PathVariable Long userID, @RequestBody User updatedUser) {
+    User user = userService.getUserById(userID);
 
-    //TODO: update user
-
-    return node;
+    user.updateUser(updatedUser);
+    return updatedUser;
   }
 
-
-  @PostMapping("/login")
-  public ObjectNode login() {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: login
-
-    return node;
+  @PostMapping(value = "/login", consumes = "application/json")
+  public User login(@RequestBody User user) {
+    return userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
   }
 
-  @PostMapping("/logout")
-  public ObjectNode logout() {
-    ObjectNode node = objectMapper.createObjectNode();
+  @PostMapping(value = "/register", consumes = "application/json")
+  public HttpStatus register(@RequestBody User user) {
+    if (user == null) {
+      return HttpStatus.NOT_ACCEPTABLE;
+    }
+    user.setJoinDate(new Date());
 
-    //TODO: logout
-
-    return node;
-  }
-
-  @PostMapping("/register")
-  public ObjectNode register() {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: register
-
-    return node;
+    userService.saveUser(user);
+    System.out.println(user);
+    return HttpStatus.OK;
   }
 }
