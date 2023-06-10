@@ -1,7 +1,5 @@
 package edu.just.codeunity.controllers;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
 import edu.just.codeunity.entities.*;
 import edu.just.codeunity.services.*;
 import java.util.*;
@@ -44,14 +42,10 @@ public class AccountController {
   }
 
   @PostMapping(value = "/register", consumes = "application/json")
-  public HttpStatus register(@RequestBody User user) {
-    if (user == null) {
-      return HttpStatus.NOT_ACCEPTABLE;
-    }
+  public User register(@RequestBody User user) {
     user.setJoinDate(new Date());
-
     userService.saveUser(user);
-    System.out.println(user);
-    return HttpStatus.OK;
+
+    return user;
   }
 }
