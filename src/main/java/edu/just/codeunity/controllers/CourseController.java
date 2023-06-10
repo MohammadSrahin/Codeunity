@@ -1,79 +1,59 @@
 package edu.just.codeunity.controllers;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
+import edu.just.codeunity.entities.*;
+import edu.just.codeunity.services.*;
+import java.util.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/course")
 public class CourseController {
 
-  private final ObjectMapper objectMapper;
+  private final UserService userService;
+  private final CourseService courseService;
 
-  public CourseController(ObjectMapper objectMapper) {
-    this.objectMapper = objectMapper;
+  public CourseController(UserService userService, CourseService courseService) {
+    this.userService = userService;
+    this.courseService = courseService;
   }
 
   @GetMapping
-  public ObjectNode getCourses() {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch courses
-
-    return node;
+  public List<Course> getCourses() {
+    return courseService.getAllCourses();
   }
 
   @GetMapping("/{courseID}/participants")
-  public ObjectNode getParticipants(@PathVariable String courseID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch participants
-
-    return node;
-  }
-
-  @GetMapping("/{courseID}/{userID}")
-  public ObjectNode getUserInCourse(@PathVariable String courseID, @PathVariable String userID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch courses
-
-    return node;
+  public List<User> getParticipants(@PathVariable Long courseID) {
+    return userService.getAllUsersEnrolledInCertainCourse(courseID);
   }
 
   @GetMapping("/{courseID}")
-  public ObjectNode getCourse(@PathVariable String courseID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch course
-
-    return node;
+  public Course getCourse(@PathVariable Long courseID) {
+    return courseService.getCourseById(courseID);
   }
 
-  @PostMapping("/{courseID}/{userID}")
-  public ObjectNode updateUserInCourse(@PathVariable String courseID, @PathVariable String userID) {
-    ObjectNode node = objectMapper.createObjectNode();
+  @PostMapping("/{courseID}")
+  public Course updateCourse(@PathVariable Long courseID, @RequestBody Course updatedCourse) {
+    Course course = courseService.getCourseById(courseID);
 
-    //TODO: update user
+    course.updateCourse(course);
 
-    return node;
+    return course;
   }
 
-  @PutMapping("/{courseID}")
-  public ObjectNode putCourse(@PathVariable String courseID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch course
-
-    return node;
+  @PostMapping("/course/new")
+  public Course newCourse(@RequestBody Course course) {
+    course.setLastUpdated(new Date());
+    courseService.saveCourse(course);
+    return course;
   }
+
 
   @DeleteMapping("/{courseID}")
-  public ObjectNode deleteCourse(@PathVariable String courseID) {
-    ObjectNode node = objectMapper.createObjectNode();
-
-    //TODO: Fetch course
-
-    return node;
+  public HttpStatus deleteCourse(@PathVariable long courseID) {
+    Course course = courseService.getCourseById(courseID);
+    courseService.deleteCourse(course);
+    return HttpStatus.OK;
   }
 }

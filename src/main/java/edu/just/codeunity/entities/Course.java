@@ -27,6 +27,16 @@ public class Course {
     @OneToOne
     private Exam exam;
 
+    public void updateCourse(Course course) {
+        this.authorId = course.authorId;
+        this.description = course.description;
+        this.name = course.name;
+
+        setLessons(course.getLessons());
+        setExam(course.getExam());
+        lastUpdated = new Date();
+    }
+
     @Override
     public String toString(){
         return name;

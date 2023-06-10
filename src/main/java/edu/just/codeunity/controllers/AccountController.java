@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AccountController {
-  private final ObjectMapper objectMapper;
 
   private final UserService userService;
   private final CourseService courseService;
 
-  public AccountController(ObjectMapper objectMapper, UserService userService, CourseService courseService) {
-    this.objectMapper = objectMapper;
+  public AccountController(UserService userService, CourseService courseService) {
     this.userService = userService;
     this.courseService = courseService;
   }
@@ -37,7 +35,7 @@ public class AccountController {
     User user = userService.getUserById(userID);
 
     user.updateUser(updatedUser);
-    return updatedUser;
+    return user;
   }
 
   @PostMapping(value = "/login", consumes = "application/json")
