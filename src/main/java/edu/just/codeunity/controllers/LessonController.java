@@ -1,8 +1,10 @@
 package edu.just.codeunity.controllers;
 
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.*;
 import edu.just.codeunity.entities.*;
 import edu.just.codeunity.services.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,13 +23,21 @@ public class LessonController {
   }
 
   @PostMapping("/{courseID}/{lessonID}")
-  public Lesson updateLesson(@PathVariable Long courseID, @PathVariable String lessonID) {
+  public ResponseEntity<Lesson> updateLesson(@PathVariable Long courseID, @PathVariable String lessonID) {
     Course course = courseService.getCourseById(courseID);
-    Lesson lesson = course.getLessons().stream()
-        .filter(l -> l.getId().equals(lessonID))
-        .findFirst().orElse(null);
 
-    return lesson;
+    try {
+      Lesson lesson = course.getLessons().stream()
+          .filter(l -> l.getId() == Long.parseLong(lessonID))
+          .findFirst().orElse(null);
+      if (lesson == null) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+
+      return new ResponseEntity<>(lesson, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
 
@@ -36,13 +46,14 @@ public class LessonController {
     Course course = courseService.getCourseById(courseID);
     lessonService.saveLesson(lesson);
     course.getLessons().add(lesson);
+    courseService.saveCourse(course);
 
     return lesson;
   }
 
   @DeleteMapping("/{lessonID}")
   public ObjectNode deleteLesson(@PathVariable String lessonID) {
-    ObjectNode node = objectMapper.createObjectNode();
+    ObjectNode node = new ObjectMapper().createObjectNode();
 
     return node;
   }

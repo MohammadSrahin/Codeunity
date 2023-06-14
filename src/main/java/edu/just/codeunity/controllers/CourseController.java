@@ -42,7 +42,7 @@ public class CourseController {
     return course;
   }
 
-  @PostMapping("/course/new")
+  @PostMapping("/new")
   public Course newCourse(@RequestBody Course course) {
     course.setLastUpdated(new Date());
     courseService.saveCourse(course);

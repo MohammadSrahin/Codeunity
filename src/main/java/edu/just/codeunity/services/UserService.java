@@ -44,6 +44,10 @@ public class UserService {
         return userRepository.findByUsernameAndPassword(username, password);
     }
 
+    public User getUserByEmailAndPassword(String email, String password) {
+        return userRepository.findByUsernameAndPassword(email, password);
+    }
+
     public User getUserByUsername(String username){
         return userRepository.findByUsername(username);
     }
