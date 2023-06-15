@@ -14,6 +14,7 @@ public class Lesson {
     private String title;
     private String body;
     private String foot;
+    private String language;
 
     @OneToOne
     private Exam exam;
