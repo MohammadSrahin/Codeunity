@@ -33,6 +33,7 @@ public class AccountController {
     User user = userService.getUserById(userID);
 
     user.updateUser(updatedUser);
+    userService.saveUser(user);
     return user;
   }
 
