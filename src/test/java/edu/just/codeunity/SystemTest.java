@@ -1,8 +1,6 @@
 package edu.just.codeunity;
 
-import edu.just.codeunity.entities.Course;
-import edu.just.codeunity.entities.Lesson;
-import edu.just.codeunity.entities.User;
+import edu.just.codeunity.entities.*;
 import edu.just.codeunity.services.CourseService;
 import edu.just.codeunity.services.LessonService;
 import edu.just.codeunity.services.UserService;

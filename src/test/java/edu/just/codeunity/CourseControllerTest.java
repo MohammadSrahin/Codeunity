@@ -83,6 +83,8 @@ class CourseControllerTest {
   void whenUpdateCourse_thenReturnUpdatedCourse() throws Exception {
     Long courseID = 123L;
     Course course = new Course();
+    course.setId(courseID);
+
     Course updatedCourse = new Course();
     updatedCourse.setId(courseID);
     updatedCourse.setName("Updated Course");

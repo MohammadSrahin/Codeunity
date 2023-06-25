@@ -49,17 +49,29 @@ class LessonControllerTest {
   void whenUpdateLesson_thenReturnLesson() throws Exception {
     Long courseID = 1L;
     String lessonID = "1";
+
     Course course = new Course();
     course.setId(courseID);
+
     Lesson lesson = new Lesson();
     lesson.setId(Long.parseLong(lessonID));
+
     course.getLessons().add(lesson);
     when(courseService.getCourseById(courseID)).thenReturn(course);
 
+    Lesson updatedLesson = new Lesson();
+    updatedLesson.setId(Long.parseLong(lessonID));
+    updatedLesson.setTitle("Updated Title");
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    String updatedLessonJson = objectMapper.writeValueAsString(updatedLesson);
+
     mockMvc.perform(post("/lesson/{courseID}/{lessonID}", courseID, lessonID)
-            .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(updatedLessonJson))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.id").value(lessonID));
+        .andExpect(jsonPath("$.id").value(lessonID))
+        .andExpect(jsonPath("$.title").value("Updated Title"));
   }
 
   @Test

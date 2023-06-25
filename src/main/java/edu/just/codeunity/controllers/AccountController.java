@@ -38,7 +38,7 @@ public class AccountController {
 
   @PostMapping(value = "/login", consumes = "application/json")
   public User login(@RequestBody User user) {
-    return userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword());
+    return userService.getUserByEmailAndPassword(user.getEmail(), user.getPassword());
   }
 
   @PostMapping(value = "/register", consumes = "application/json")

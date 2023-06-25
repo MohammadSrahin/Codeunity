@@ -1,12 +1,8 @@
 package edu.just.codeunity.entities;
 
-import edu.just.codeunity.Types.ExamType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -20,12 +16,11 @@ public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-    private String name;
-    private String description;
+    private String question;
     private String input;
-    private String ouput;
+    private String output;
     @Override
     public String toString(){
-        return name;
+        return question;
     }
 }

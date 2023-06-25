@@ -25,7 +25,6 @@ public class Lesson {
     }
 
     public void updateLesson(Lesson lesson) {
-        this.Id = lesson.getId();
         this.title = lesson.getTitle();
         this.body = lesson.getBody();
         this.foot = lesson.getFoot();

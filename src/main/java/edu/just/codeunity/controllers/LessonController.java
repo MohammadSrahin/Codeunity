@@ -1,7 +1,5 @@
 package edu.just.codeunity.controllers;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.node.*;
 import edu.just.codeunity.entities.*;
 import edu.just.codeunity.services.*;
 import org.springframework.http.*;
@@ -13,16 +11,19 @@ public class LessonController {
 
   private final LessonService lessonService;
   private final CourseService courseService;
-  public LessonController(LessonService lessonService, CourseService courseService) {
+  private final ExamService examService;
+  public LessonController(LessonService lessonService, CourseService courseService,
+      ExamService examService) {
     this.lessonService = lessonService;
     this.courseService = courseService;
+    this.examService = examService;
   }
   @GetMapping("/{lessonID}")
   public Lesson getLesson(@PathVariable Long lessonID) {
     return lessonService.getLessonById(lessonID);
   }
 
-  @PostMapping("/{courseID}/{lessonID}")
+  @PostMapping(value = "/{courseID}/{lessonID}", consumes = "application/json")
   public ResponseEntity<Lesson> updateLesson(@PathVariable Long courseID, @PathVariable Long lessonID, @RequestBody Lesson updatedLesson) {
     Course course = courseService.getCourseById(courseID);
 
@@ -36,6 +37,9 @@ public class LessonController {
       }
 
       lesson.updateLesson(updatedLesson);
+      if (lesson.getExam() != null) {
+        examService.saveExam(lesson.getExam());
+      }
       lessonService.saveLesson(lesson);
 
       return new ResponseEntity<>(lesson, HttpStatus.OK);
@@ -48,6 +52,9 @@ public class LessonController {
   @PutMapping("/{courseID}/newLesson")
   public Lesson putLesson(@PathVariable Long courseID, @RequestBody Lesson lesson) {
     Course course = courseService.getCourseById(courseID);
+    if (lesson.getExam() != null) {
+      examService.saveExam(lesson.getExam());
+    }
     lessonService.saveLesson(lesson);
 
     course.getLessons().add(lesson);
@@ -67,5 +74,31 @@ public class LessonController {
     lessonService.deleteLesson(lesson);
 
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping("/{lessonID}/exam")
+  public ResponseEntity<Exam> getExam(@PathVariable Long lessonID) {
+    Lesson lesson = lessonService.getLessonById(lessonID);
+
+    if (lesson == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    return new ResponseEntity<>(lesson.getExam(), HttpStatus.OK);
+  }
+
+  @PostMapping("/{lessonID}/exam")
+  public ResponseEntity<Exam> addExam(@PathVariable Long lessonID, @RequestBody Exam exam) {
+    Lesson lesson = lessonService.getLessonById(lessonID);
+
+    if (lesson == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    lesson.setExam(exam);
+
+    lessonService.saveLesson(lesson);
+
+    return new ResponseEntity<>(lesson.getExam(), HttpStatus.OK);
   }
 }
