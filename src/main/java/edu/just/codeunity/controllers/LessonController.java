@@ -23,16 +23,20 @@ public class LessonController {
   }
 
   @PostMapping("/{courseID}/{lessonID}")
-  public ResponseEntity<Lesson> updateLesson(@PathVariable Long courseID, @PathVariable String lessonID) {
+  public ResponseEntity<Lesson> updateLesson(@PathVariable Long courseID, @PathVariable Long lessonID, @RequestBody Lesson updatedLesson) {
     Course course = courseService.getCourseById(courseID);
 
     try {
       Lesson lesson = course.getLessons().stream()
-          .filter(l -> l.getId() == Long.parseLong(lessonID))
+          .filter(l -> l.getId().equals(lessonID))
           .findFirst().orElse(null);
+
       if (lesson == null) {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
+
+      lesson.updateLesson(updatedLesson);
+      lessonService.saveLesson(lesson);
 
       return new ResponseEntity<>(lesson, HttpStatus.OK);
     } catch (Exception e) {
@@ -45,6 +49,7 @@ public class LessonController {
   public Lesson putLesson(@PathVariable Long courseID, @RequestBody Lesson lesson) {
     Course course = courseService.getCourseById(courseID);
     lessonService.saveLesson(lesson);
+
     course.getLessons().add(lesson);
     courseService.saveCourse(course);
 
@@ -52,10 +57,15 @@ public class LessonController {
   }
 
   @DeleteMapping("/{lessonID}")
-  public ObjectNode deleteLesson(@PathVariable String lessonID) {
-    ObjectNode node = new ObjectMapper().createObjectNode();
+  public ResponseEntity<HttpStatus> deleteLesson(@PathVariable Long lessonID) {
+    Lesson lesson = lessonService.getLessonById(lessonID);
 
-    return node;
+    if (lesson == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    lessonService.deleteLesson(lesson);
+
+    return new ResponseEntity<>(HttpStatus.OK);
   }
-
 }

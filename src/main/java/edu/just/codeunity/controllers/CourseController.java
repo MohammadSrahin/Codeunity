@@ -37,8 +37,9 @@ public class CourseController {
   public Course updateCourse(@PathVariable Long courseID, @RequestBody Course updatedCourse) {
     Course course = courseService.getCourseById(courseID);
 
-    course.updateCourse(course);
+    course.updateCourse(updatedCourse);
 
+    courseService.saveCourse(course);
     return course;
   }
 

@@ -23,4 +23,13 @@ public class Lesson {
     public String toString(){
         return title;
     }
+
+    public void updateLesson(Lesson lesson) {
+        this.Id = lesson.getId();
+        this.title = lesson.getTitle();
+        this.body = lesson.getBody();
+        this.foot = lesson.getFoot();
+        this.language = lesson.getLanguage();
+        this.exam = lesson.getExam();
+    }
 }

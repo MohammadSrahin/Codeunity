@@ -37,6 +37,7 @@ public class User {
         this.username = user.username;
         this.birthDate = user.birthDate;
         this.role = user.role;
+        this.Id = user.Id;
     }
 
     @Override

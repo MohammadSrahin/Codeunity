@@ -31,6 +31,7 @@ public class Course {
         this.authorId = course.authorId;
         this.description = course.description;
         this.name = course.name;
+        this.Id = course.Id;
 
         setLessons(course.getLessons());
         setExam(course.getExam());
