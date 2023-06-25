@@ -23,7 +23,7 @@ public class LessonController {
     return lessonService.getLessonById(lessonID);
   }
 
-  @PostMapping(value = "/{courseID}/{lessonID}", consumes = "application/json")
+  @PostMapping("/{courseID}/{lessonID}")
   public ResponseEntity<Lesson> updateLesson(@PathVariable Long courseID, @PathVariable Long lessonID, @RequestBody Lesson updatedLesson) {
     Course course = courseService.getCourseById(courseID);
 
@@ -40,6 +40,7 @@ public class LessonController {
       if (lesson.getExam() != null) {
         examService.saveExam(lesson.getExam());
       }
+
       lessonService.saveLesson(lesson);
 
       return new ResponseEntity<>(lesson, HttpStatus.OK);

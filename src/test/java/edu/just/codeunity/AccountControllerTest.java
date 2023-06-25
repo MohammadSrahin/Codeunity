@@ -9,10 +9,13 @@ import edu.just.codeunity.controllers.*;
 import edu.just.codeunity.entities.*;
 import edu.just.codeunity.services.*;
 import java.util.*;
+import org.aspectj.lang.annotation.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.boot.test.mock.mockito.*;
+import org.springframework.security.crypto.bcrypt.*;
+import org.springframework.security.crypto.password.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
 import org.springframework.test.web.servlet.result.*;
@@ -29,6 +32,9 @@ class AccountControllerTest {
 
   @MockBean
   private CourseService courseService;
+
+  @MockBean
+  private PasswordEncoder passwordEncoder;
 
   @Test
   void whenGetProfile_thenReturnUser() throws Exception {
@@ -86,16 +92,17 @@ class AccountControllerTest {
   @Test
   void whenLogin_thenReturnLoggedInUser() throws Exception {
     User user = new User();
-    user.setUsername("testuser");
+    user.setEmail("testuser@gmail.com");
     user.setPassword("testpassword");
 
-    when(userService.getUserByUsernameAndPassword(user.getUsername(), user.getPassword())).thenReturn(user);
-
+    when(userService.getUserByEmail(user.getEmail())).thenReturn(user);
+    when(passwordEncoder.encode(user.getPassword())).thenReturn(user.getPassword());
+    when(passwordEncoder.matches(user.getPassword(), "testpassword")).thenReturn(true);
     mockMvc.perform(MockMvcRequestBuilders.post("/login")
             .contentType("application/json")
             .content(new ObjectMapper().writeValueAsString(user)))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(jsonPath("$.username").value("testuser"));
+        .andExpect(jsonPath("$.email").value("testuser@gmail.com"));
   }
 
   @Test

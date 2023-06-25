@@ -37,16 +37,15 @@ public class CourseController {
   public Course updateCourse(@PathVariable Long courseID, @RequestBody Course updatedCourse) {
     Course course = courseService.getCourseById(courseID);
 
-    course.updateCourse(updatedCourse);
+    course.updateCourse(course);
 
-    courseService.saveCourse(course);
-    return course;
+    return courseService.saveCourse(course);
   }
 
   @PostMapping("/new")
   public Course newCourse(@RequestBody Course course) {
     course.setLastUpdated(new Date());
-      courseService.saveCourse(course);
+    courseService.saveCourse(course);
     return course;
   }
 
